@@ -1,18 +1,23 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
-  <link rel="stylesheet" href="./theme.css">
-  <link rel="stylesheet" href="./index.css">
-</head>
-<body>
-  <div class="outter-container">
-    <main class="layout">
-      %post%
-    </main>
-  </div>
-</body>
+<html>
+  <head>
+    <link rel="stylesheet" href="../css/code-theme.css" />
+    <link rel="stylesheet" href="../css/post.css" />
+    <link rel="stylesheet" href="../css/latex.css" />
+    <style>
+      .layout {
+        width: 60%;
+        height: auto;
+        margin-left: 50%;
+        transform: translateX(-50%);
+      }
+    </style>
+  </head>
+  <body>
+    <header> 
+      this is header
+    </header>
+    <div class="layout">
+      <div class="post">%post%</div>
+    </div>
+  </body>
 </html>

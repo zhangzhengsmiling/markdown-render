@@ -8,6 +8,8 @@
 
 .post h1 {
   font-family: 'Times New Roman', Times, serif;
+  text-align: center;
+  padding: 20px;
 }
 
 .post pre {
@@ -78,4 +80,9 @@
 .post a:hover {
   text-decoration: underline;
   transition: all .2s ease-in-out;
+}
+
+.post img {
+  margin-left: 50%;
+  transform: translateX(-50%);
 }

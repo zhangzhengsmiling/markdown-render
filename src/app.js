@@ -2,8 +2,6 @@ const express = require('express')
 const hljs = require('highlight.js')
 const fs = require('fs')
 const path = require('path')
-const markdownItLatex = require('markdown-it-latex').default;
-console.log(markdownItLatex)
 const markdown = require('markdown-it')({
   html: true,
   highlight: function (str, lang) {
@@ -12,12 +10,11 @@ const markdown = require('markdown-it')({
         return hljs.highlight(str, { language: lang }).value
       } catch (__) {}
     }
-
     return ''
   }
 }).use(require('markdown-it-latex2img'))
 
-const markdownRender = (content) => {
+const mixIdForHeader = (content) => {
   return markdown
     .render(content)
     .replaceAll(/<h1>(.*)<\/h1>/g, '<h1 id="$1">$1</h1>')
@@ -36,24 +33,17 @@ posts.forEach((post) => {
   move(
     path.resolve(__dirname, './source/posts', post),
     path.resolve(__dirname, '../public/posts', post.replace('.md', '.html')),
-    (stream) =>
-      `<html>
-        <head>
-          <link rel="stylesheet" href="../css/code-theme.css">
-          <link rel="stylesheet" href="../css/post.css">
-          <link rel="stylesheet" href="../css/latex.css">
-        </head>
-        <body>
-          <div class="post">
-           ${markdownRender(stream.toString())}
-          </div>
-        </body>
-      </html>`
+    (stream) => {
+      const template = fs.readFileSync(
+        path.resolve(__dirname, './template/post/index.html')
+      ).toString();
+      return template.replace('%post%', mixIdForHeader(stream.toString()))
+    }
   )
 })
 
 fs.cpSync(path.resolve(__dirname, 'source/css'), path.resolve(__dirname, '../public/css'), {
-  recursive: true,
+  recursive: true
 })
 
 move(
@@ -65,8 +55,6 @@ move(
   path.resolve(__dirname, '../node_modules/markdown-it-latex/dist/index.css'),
   path.resolve(__dirname, '../public/css/latex.css')
 )
-
-console.log(markdown.render('```late\n$dp[1] = 1;\\\\dp[2] = 2;\\\\dp[3] = 1 + 2 = 3;\\\\dp[4] = 2 + 3 = 5$```'))
 
 const app = express()
 
